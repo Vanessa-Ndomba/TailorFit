@@ -48,3 +48,19 @@ This update brings the UML Class diagrams to life by implementing the core class
 - `/creational_patterns`: Implementation of all 6 design patterns applied to the TailorFit architecture.
 - `/tests`: Unit tests verifying correct object creation, initialization, and handling of edge cases (e.g., Singleton thread-safety).
 - `CHANGELOG.md`: Tracks the latest agile task movements and GitHub issue resolutions.
+
+## Assignment 11: Implementing a Persistence Repository Layer
+
+This update introduces a robust persistence layer to store and retrieve domain entities, taking the application beyond pure stateless execution. 
+
+### Design Decisions & Justifications
+- **Generic Repository Interface**: A generic `Repository[T, ID]` interface was used to enforce a standard contract for CRUD operations. I used generics to avoid duplication across multiple entity repositories (e.g., if we add a `SystemLogRepository` later, it will use the exact same base operations).
+- **In-Memory Storage**: Initially implemented using a Python Dictionary (`HashMap`) inside `InMemoryCoverLetterRepository` to support fast, transient storage that fulfills the current testing needs.
+- **Factory Pattern for Storage Abstraction**: I chose the **Factory Pattern** (`RepositoryFactory`) over standard Dependency Injection because it natively complements the creational patterns introduced in Assignment 10. The frontend/API routers simply request a repository by passing a string (e.g., `"MEMORY"`) without needing to know *how* the repository is constructed.
+- **Future-Proofing**: Added a `FileSystemCoverLetterRepository` stub to demonstrate that switching to a permanent JSON file-system (or SQL Database) later only requires writing the storage logic and updating the Factory, with zero impact on the core application services.
+
+### Deliverables Overview
+- `/repositories/base_repository.py`: Interface definitions.
+- `/repositories/inmemory/`: HashMap-based implementations.
+- `/factories/repository_factory.py`: The Factory abstraction mechanism.
+- `/repositories/filesystem/`: Stubs for future file-based storage.

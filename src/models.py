@@ -61,7 +61,8 @@ class Resume:
 
 
 class CoverLetter:
-    def __init__(self, content: str, status: str, template_version: str):
+    def __init__(self, id: str, content: str, status: str, template_version: str):
+        self.id = id
         self.content = content
         self.status = status
         self.template_version = template_version
