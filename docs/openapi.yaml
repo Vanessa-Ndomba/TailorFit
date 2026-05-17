@@ -1,0 +1,588 @@
+components:
+  schemas:
+    CoverLetterCreate:
+      properties:
+        content:
+          description: Cover letter content
+          minLength: 1
+          title: Content
+          type: string
+        status:
+          default: draft
+          description: 'Status: draft or finalized'
+          title: Status
+          type: string
+        template_version:
+          default: '1.0'
+          description: Template version
+          title: Template Version
+          type: string
+      required:
+      - content
+      title: CoverLetterCreate
+      type: object
+    CoverLetterResponse:
+      properties:
+        content:
+          title: Content
+          type: string
+        id:
+          title: Id
+          type: string
+        status:
+          title: Status
+          type: string
+        template_version:
+          title: Template Version
+          type: string
+      required:
+      - id
+      - content
+      - status
+      - template_version
+      title: CoverLetterResponse
+      type: object
+    CoverLetterUpdate:
+      properties:
+        content:
+          description: Updated content
+          minLength: 1
+          title: Content
+          type: string
+      required:
+      - content
+      title: CoverLetterUpdate
+      type: object
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    JobDescriptionCreate:
+      properties:
+        text:
+          description: Job description text
+          minLength: 1
+          title: Text
+          type: string
+      required:
+      - text
+      title: JobDescriptionCreate
+      type: object
+    JobDescriptionResponse:
+      properties:
+        id:
+          title: Id
+          type: string
+        text:
+          title: Text
+          type: string
+      required:
+      - id
+      - text
+      title: JobDescriptionResponse
+      type: object
+    JobDescriptionUpdate:
+      properties:
+        text:
+          description: Updated job description
+          minLength: 1
+          title: Text
+          type: string
+      required:
+      - text
+      title: JobDescriptionUpdate
+      type: object
+    ResumeCreate:
+      properties:
+        text:
+          description: Resume content
+          minLength: 1
+          title: Text
+          type: string
+      required:
+      - text
+      title: ResumeCreate
+      type: object
+    ResumeResponse:
+      properties:
+        id:
+          title: Id
+          type: string
+        text:
+          title: Text
+          type: string
+      required:
+      - id
+      - text
+      title: ResumeResponse
+      type: object
+    ResumeUpdate:
+      properties:
+        text:
+          description: Updated resume content
+          minLength: 1
+          title: Text
+          type: string
+      required:
+      - text
+      title: ResumeUpdate
+      type: object
+    ValidationError:
+      properties:
+        ctx:
+          title: Context
+          type: object
+        input:
+          title: Input
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
+info:
+  description: Service layer and REST API for TailorFit cover letter generation
+  title: TailorFit API
+  version: 1.0.0
+openapi: 3.1.0
+paths:
+  /:
+    get:
+      description: Root endpoint - API is running.
+      operationId: root__get
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+      summary: Root
+      tags:
+      - Root
+  /api/cover-letters:
+    get:
+      description: Retrieve all cover letters from the system
+      operationId: get_all_cover_letters_api_cover_letters_get
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/CoverLetterResponse'
+                title: Response Get All Cover Letters Api Cover Letters Get
+                type: array
+          description: Successful Response
+      summary: Get all cover letters
+      tags:
+      - TailorFit
+    post:
+      description: Create a new cover letter with initial content
+      operationId: create_cover_letter_api_cover_letters_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CoverLetterCreate'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CoverLetterResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create a new cover letter
+      tags:
+      - TailorFit
+  /api/cover-letters/{letter_id}:
+    delete:
+      description: Delete a cover letter.
+      operationId: delete_cover_letter_api_cover_letters__letter_id__delete
+      parameters:
+      - in: path
+        name: letter_id
+        required: true
+        schema:
+          title: Letter Id
+          type: string
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Delete a cover letter
+      tags:
+      - TailorFit
+    get:
+      description: Retrieve a specific cover letter by ID.
+      operationId: get_cover_letter_api_cover_letters__letter_id__get
+      parameters:
+      - in: path
+        name: letter_id
+        required: true
+        schema:
+          title: Letter Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CoverLetterResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Get a cover letter by ID
+      tags:
+      - TailorFit
+    put:
+      description: Update an existing cover letter.
+      operationId: update_cover_letter_api_cover_letters__letter_id__put
+      parameters:
+      - in: path
+        name: letter_id
+        required: true
+        schema:
+          title: Letter Id
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CoverLetterUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CoverLetterResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Update a cover letter
+      tags:
+      - TailorFit
+  /api/cover-letters/{letter_id}/finalize:
+    post:
+      description: 'Business workflow: Mark cover letter as finalized'
+      operationId: finalize_cover_letter_api_cover_letters__letter_id__finalize_post
+      parameters:
+      - in: path
+        name: letter_id
+        required: true
+        schema:
+          title: Letter Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CoverLetterResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Finalize a cover letter
+      tags:
+      - TailorFit
+  /api/job-descriptions:
+    get:
+      description: Fetch all job descriptions.
+      operationId: get_all_job_descriptions_api_job_descriptions_get
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/JobDescriptionResponse'
+                title: Response Get All Job Descriptions Api Job Descriptions Get
+                type: array
+          description: Successful Response
+      summary: Get all job descriptions
+      tags:
+      - TailorFit
+    post:
+      description: Create a new job description.
+      operationId: create_job_description_api_job_descriptions_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobDescriptionCreate'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobDescriptionResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create a new job description
+      tags:
+      - TailorFit
+  /api/job-descriptions/{jd_id}:
+    delete:
+      description: Delete a job description.
+      operationId: delete_job_description_api_job_descriptions__jd_id__delete
+      parameters:
+      - in: path
+        name: jd_id
+        required: true
+        schema:
+          title: Jd Id
+          type: string
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Delete a job description
+      tags:
+      - TailorFit
+    get:
+      description: Retrieve a specific job description by ID.
+      operationId: get_job_description_api_job_descriptions__jd_id__get
+      parameters:
+      - in: path
+        name: jd_id
+        required: true
+        schema:
+          title: Jd Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobDescriptionResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Get a job description by ID
+      tags:
+      - TailorFit
+    put:
+      description: Update an existing job description.
+      operationId: update_job_description_api_job_descriptions__jd_id__put
+      parameters:
+      - in: path
+        name: jd_id
+        required: true
+        schema:
+          title: Jd Id
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobDescriptionUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobDescriptionResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Update a job description
+      tags:
+      - TailorFit
+  /api/resumes:
+    get:
+      description: Fetch all resumes.
+      operationId: get_all_resumes_api_resumes_get
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ResumeResponse'
+                title: Response Get All Resumes Api Resumes Get
+                type: array
+          description: Successful Response
+      summary: Get all resumes
+      tags:
+      - TailorFit
+    post:
+      description: Create a new resume.
+      operationId: create_resume_api_resumes_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResumeCreate'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResumeResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create a new resume
+      tags:
+      - TailorFit
+  /api/resumes/{resume_id}:
+    delete:
+      description: Delete a resume.
+      operationId: delete_resume_api_resumes__resume_id__delete
+      parameters:
+      - in: path
+        name: resume_id
+        required: true
+        schema:
+          title: Resume Id
+          type: string
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Delete a resume
+      tags:
+      - TailorFit
+    get:
+      description: Retrieve a specific resume by ID.
+      operationId: get_resume_api_resumes__resume_id__get
+      parameters:
+      - in: path
+        name: resume_id
+        required: true
+        schema:
+          title: Resume Id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResumeResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Get a resume by ID
+      tags:
+      - TailorFit
+    put:
+      description: Update an existing resume.
+      operationId: update_resume_api_resumes__resume_id__put
+      parameters:
+      - in: path
+        name: resume_id
+        required: true
+        schema:
+          title: Resume Id
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResumeUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResumeResponse'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Update a resume
+      tags:
+      - TailorFit
+  /health:
+    get:
+      description: Health check endpoint.
+      operationId: health_health_get
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+      summary: Health
+      tags:
+      - Health

@@ -11,7 +11,7 @@ from services.resume_service import ResumeService
 
 router = APIRouter(prefix="/api", tags=["TailorFit"])
 
-# Dependency injection (you'll inject these in main.py)
+# Dependency injection
 cover_letter_service: CoverLetterService = None
 job_description_service: JobDescriptionService = None
 resume_service: ResumeService = None

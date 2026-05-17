@@ -64,3 +64,105 @@ This update introduces a robust persistence layer to store and retrieve domain e
 - `/repositories/inmemory/`: HashMap-based implementations.
 - `/factories/repository_factory.py`: The Factory abstraction mechanism.
 - `/repositories/filesystem/`: Stubs for future file-based storage.
+
+## Assignment 12
+## API Endpoints
+
+### Running the API Server
+
+```bash
+# Install dependencies
+py -m pip install fastapi uvicorn pydantic pytest
+
+# Start the development server
+python -m uvicorn main:app --reload
+
+# API will be available at: http://localhost:8000
+# Swagger UI (interactive docs): http://localhost:8000/docs
+# ReDoc (alternative docs): http://localhost:8000/redoc
+```
+
+## Core Endpoints
+
+``` PYTHON
+# Cover Letters
+- GET /api/cover-letters - Fetch all cover letters
+- POST /api/cover-letters - Create a new cover letter
+- GET /api/cover-letters/{id} - Retrieve a specific cover letter
+- PUT /api/cover-letters/{id} - Update a cover letter
+- DELETE /api/cover-letters/{id} - Delete a cover letter
+- POST /api/cover-letters/{id}/finalize - Mark cover letter as finalized
+
+# Job Descriptions
+GET /api/job-descriptions - Fetch all job descriptions
+POST /api/job-descriptions - Create a new job description
+GET /api/job-descriptions/{id} - Retrieve a specific job description
+PUT /api/job-descriptions/{id} - Update a job description
+DELETE /api/job-descriptions/{id} - Delete a job description
+
+# Resumes
+GET /api/resumes - Fetch all resumes
+POST /api/resumes - Create a new resume
+GET /api/resumes/{id} - Retrieve a specific resume
+PUT /api/resumes/{id} - Update a resume
+DELETE /api/resumes/{id} - Delete a resume
+
+# Health & Diagnostics
+GET / - Root endpoint (API status)
+GET /health - Health check endpoint
+```
+
+## Deliverables
+
+1. Service Layer:
+Service classes ( `/services` ).
+Unit tests ( `/tests/services` ).
+
+2. REST API:
+API code ( `/api` ).
+Integration tests ( `/tests/api` ).
+
+```bash
+# Run tests
+pytest tests/test_services.py -v
+pytest tests/test_api.py -v
+```
+
+``` 
+===================================================================================== test session starts ======================================================================================
+platform win32 -- Python 3.12.1, pytest-9.0.3, pluggy-1.6.0 -- D:\Users\redacted\AppData\Local\Programs\Python\Python312\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\CPUT\Downloads\2026\Software Engineering\Assignment_3\TailorFit
+plugins: anyio-4.9.0, cov-7.1.0
+collected 10 items                                                                                                                                                                              
+
+tests/test_services.py::TestCoverLetterService::test_create_cover_letter PASSED                                                                                                           [ 10%]
+tests/test_services.py::TestCoverLetterService::test_create_empty_cover_letter_fails PASSED                                                                                               [ 20%]
+tests/test_services.py::TestCoverLetterService::test_get_cover_letter PASSED                                                                                                              [ 30%]
+tests/test_services.py::TestCoverLetterService::test_update_cover_letter PASSED                                                                                                           [ 40%]
+tests/test_services.py::TestCoverLetterService::test_finalize_cover_letter PASSED                                                                                                         [ 50%]
+tests/test_services.py::TestCoverLetterService::test_delete_cover_letter PASSED                                                                                                           [ 60%]
+tests/test_services.py::TestJobDescriptionService::test_create_job_description PASSED                                                                                                     [ 70%]
+tests/test_services.py::TestJobDescriptionService::test_create_empty_jd_fails PASSED                                                                                                      [ 80%]
+tests/test_services.py::TestResumeService::test_create_resume PASSED                                                                                                                      [ 90%]
+tests/test_services.py::TestResumeService::test_create_empty_resume_fails PASSED            
+```
+
+```
+platform win32 -- Python 3.12.1, pytest-9.0.3, pluggy-1.6.0 -- D:\Users\redacted\AppData\Local\Programs\Python\Python312\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\CPUT\Downloads\2026\Software Engineering\Assignment_3\TailorFit
+plugins: anyio-4.9.0, cov-7.1.0
+collected 7 items                                                                                                                                                                               
+
+tests/test_api.py::TestCoverLetterAPI::test_get_all_cover_letters PASSED                                                                                                                  [ 14%]
+tests/test_api.py::TestCoverLetterAPI::test_create_cover_letter PASSED                                                                                                                    [ 28%]
+tests/test_api.py::TestCoverLetterAPI::test_get_cover_letter PASSED                                                                                                                       [ 42%]
+tests/test_api.py::TestCoverLetterAPI::test_update_cover_letter PASSED                                                                                                                    [ 57%]
+tests/test_api.py::TestCoverLetterAPI::test_finalize_cover_letter PASSED                                                                                                                  [ 71%]
+tests/test_api.py::TestJobDescriptionAPI::test_create_job_description PASSED                                                                                                              [ 85%]
+tests/test_api.py::TestResumeAPI::test_create_resume PASSED                                                                                                                               [100%]
+
+```
+3. Documentation:
+OpenAPI/Swagger docs ( `/docs` )
