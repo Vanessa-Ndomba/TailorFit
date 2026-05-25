@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+pydantic
+pytest
+pytest-cov
+anyio
+httpx
+build

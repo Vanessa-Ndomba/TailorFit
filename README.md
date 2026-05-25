@@ -3,6 +3,22 @@
 ## Project Description
 TailorFit is an AI-assisted web application designed to help job seekers quickly tailor their cover letters to specific job descriptions. The system uses a lightweight HTML and JavaScript front-end and a Python API to process user input and interact with external AI models using a "Bring Your Own Key" architecture.
 
+## Getting Started
+To run TailorFit locally, you need Python 3.12+ installed.
+
+1. Clone the repository and install the dependencies:
+   ```bash
+   pip install fastapi uvicorn pydantic pytest
+   ```
+2. Start the development server:
+   ```bash
+   python -m uvicorn main:app --reload
+   ```
+3. The API will be available at `http://localhost:8000`
+4. Navigate to `http://localhost:8000/docs` to view the interactive Swagger API documentation.
+
+For detailed contribution instructions, please see CONTRIBUTING.md.
+
 ## Assignment 4 Update
 This project now includes Assignment 4 stakeholder and system requirements documentation, built on top of the Assignment 3 TailorFit scope.
 
@@ -185,3 +201,14 @@ This project uses **GitHub Actions** to automate continuous integration (CI) and
 - **CI Workflow:** Every push to any branch and any Pull Request to `main` triggers the `ci.yml` workflow. This workflow sets up the Python 3.12 environment, installs dependencies, and runs the full `pytest` suite. If any tests fail, the workflow fails, which safely blocks the Pull Request from being merged.
 - **CD Workflow (Release Artifact):** When code is merged directly into the `main` branch, the pipeline automatically proceeds to the `build-and-release` job after successful testing. This job uses Python's `build` module to package the application into a standard wheel/sdist artifact and uploads it as a GitHub release artifact for easy deployment.
 - **Branch Protection:** The `main` branch is protected by strict repository rules. Direct pushes are disabled, requiring all changes to be submitted via Pull Requests. Furthermore, PRs require at least one approving review and all CI status checks (tests) to pass before a merge is permitted, ensuring top-tier code quality.
+
+## Features for Contribution
+Looking to contribute? Here are some features we are looking for help with. Check our issue tracker for `good-first-issue` and `feature-request` labels!
+
+| Feature Area | Description | Difficulty |
+|---|---|---|
+| **Document Parsing** | Allow users to upload `.pdf` or `.docx` files instead of raw text. | Medium |
+| **Redis Caching** | Implement Redis to cache popular prompt templates and speed up generation. | Hard |
+| **Expanded Tones** | Add new creative and academic tones to the Prompt Factory. | Easy |
+| **UI Improvements** | Improve the frontend interface and add mobile responsive CSS. | Easy |
+| **Database Layer** | Create an SQL repository implementing our base `Repository` interface. | Medium |
