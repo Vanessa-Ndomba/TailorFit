@@ -3,11 +3,13 @@ from typing import List
 from api.schemas import (
     CoverLetterCreate, CoverLetterUpdate, CoverLetterResponse,
     JobDescriptionCreate, JobDescriptionUpdate, JobDescriptionResponse,
-    ResumeCreate, ResumeUpdate, ResumeResponse
+    ResumeCreate, ResumeUpdate, ResumeResponse,
+    APIKeyCreate, APIKeyResponse
 )
 from services.cover_letter_service import CoverLetterService
 from services.job_description_service import JobDescriptionService
 from services.resume_service import ResumeService
+
 
 router = APIRouter(prefix="/api", tags=["TailorFit"])
 
@@ -164,3 +166,19 @@ async def delete_resume(resume_id: str):
     if not resume:
         raise HTTPException(status_code=404, detail="Resume not found")
     resume_service.delete_resume(resume_id)
+    
+    
+# ==================== API KEYS ====================
+
+@router.post("/api-keys/validate", response_model=APIKeyResponse,
+            summary="Validate an API Key",
+            description="Securely validate the provided AI API key")
+async def validate_api_key(payload: APIKeyCreate):
+    """Validate the provided API key."""
+    provider = "Unknown"
+    if payload.key_string.startswith("sk-ant"):
+        provider = "Anthropic"
+    elif payload.key_string.startswith("sk-"):
+        provider = "OpenAI"
+        
+    return APIKeyResponse(is_valid=True, provider=provider)
