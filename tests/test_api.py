@@ -63,3 +63,30 @@ class TestResumeAPI:
         response = client.post("/api/resumes", json=payload)
         assert response.status_code == 201
         assert response.json()["text"] == "5 years of software development"
+
+class TestAPIKeyAPI:
+    def test_validate_api_key_openai(self):
+        payload = {"key_string": "sk-1234567890"}
+        response = client.post("/api/api-keys/validate", json=payload)
+        assert response.status_code == 200
+        assert response.json()["is_valid"] is True
+        assert response.json()["provider"] == "OpenAI"
+
+    def test_validate_api_key_anthropic(self):
+        payload = {"key_string": "sk-ant-1234567890"}
+        response = client.post("/api/api-keys/validate", json=payload)
+        assert response.status_code == 200
+        assert response.json()["is_valid"] is True
+        assert response.json()["provider"] == "Anthropic"
+
+    def test_validate_api_key_unknown(self):
+        payload = {"key_string": "my-custom-key"}
+        response = client.post("/api/api-keys/validate", json=payload)
+        assert response.status_code == 200
+        assert response.json()["is_valid"] is True
+        assert response.json()["provider"] == "Unknown"
+
+    def test_validate_api_key_invalid_empty(self):
+        payload = {"key_string": ""}
+        response = client.post("/api/api-keys/validate", json=payload)
+        assert response.status_code == 422
